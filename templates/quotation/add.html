@@ -1,0 +1,156 @@
+{% extends "index.html" %}
+{% load i18n %}
+{% load tz %}
+{% load static %}
+
+{% block content %}
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12">
+				<div class="page-title-box">
+					<h4 class="page-title float-left">{{title}}</h4>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</div>
+		<!-- end row -->
+		<form enctype="multipart/form-data" class="ajax reset redirect" method="post"
+			action="{{url}}" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="card">
+						<div class="card-body card-padding">
+							<div class="form-group fg-line">
+								<label for="{{ form.customer.id_for_label }}">
+									{{ form.customer.label }}
+									{% if form.customer.field.required %}
+									<small class="star">*</small>
+									{% endif %}
+
+									{% if form.customer.help_text %}
+									<span data-original-title="Field Info" title=""
+										data-content="{{ form.customer.help_text }}" data-placement="left"
+										data-toggle="popover" data-trigger="hover"
+										class="help-text-icon zmdi zmdi-info-outline"></span>
+									{% endif %}
+								</label>
+								{{ form.customer }}
+
+								{% if form.customer.errors %}
+								<label class="error">{{ form.customer.errors.as_text }}</label>
+								{% endif %}
+							</div>
+
+							<div class="form-group fg-line">
+								<label for="{{ form.date.id_for_label }}">
+									{{ form.date.label }}
+									{% if form.date.field.required %}
+									<small class="star">*</small>
+									{% endif %}
+
+									{% if form.date.help_text %}
+									<span data-original-title="Field Info" title=""
+										data-content="{{ form.date.help_text }}" data-placement="left"
+										data-toggle="popover" data-trigger="hover"
+										class="help-text-icon zmdi zmdi-info-outline"></span>
+									{% endif %}
+								</label>
+								{{ form.date }}
+
+								{% if form.date.errors %}
+								<label class="error">{{ form.date.errors.as_text }}</label>
+								{% endif %}
+							</div>
+
+
+							<div class="form-group fg-line">
+								<label for="{{ form.discount.id_for_label }}">
+									{{ form.discount.label }}
+									{% if form.discount.field.required %}
+									<small class="star">*</small>
+									{% endif %}
+
+									{% if form.discount.help_text %}
+									<span data-original-title="Field Info" title=""
+										data-content="{{ form.discount.help_text }}" data-placement="left"
+										data-toggle="popover" data-trigger="hover"
+										class="help-text-icon zmdi zmdi-info-outline"></span>
+									{% endif %}
+								</label>
+								{{ form.discount }}
+
+								{% if form.discount.errors %}
+								<label class="error">{{ form.discount.errors.as_text }}</label>
+								{% endif %}
+							</div>
+							<div class="m-t-20">
+								<button type="submit" class="btn btn-info waves-effect">Create</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="card duty-time-card">
+						<div class="table-responsive card-body add_item_container quotation_formset">
+							<table id="data-table-basic" class="table table-striped table-vmiddle">
+								<thead>
+									<tr>
+										<th data-column-id="day">Product
+											<small class="star">*</small>
+										</th>
+										<th data-column-id="day">Quantity
+											<small class="star">*</small>
+										</th>
+										<th class="one"></th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for item in quotation_formset.forms %}
+									<tr class="form_set_row">
+										<td style="width:50%;" >
+											{{ item.id }}
+											<span class="day p-relative">
+												{{ item.product }}
+											</span>
+										</td>
+										<td style="width:50%;" >
+											<!-- {{ item.id }} -->
+											<span class="day p-relative">
+												{{ item.qty }}
+											</span>
+										</td>
+										<td class="one">{% if quotation_formset.can_delete %}{{ item.DELETE }}{% endif %}</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+							{{ quotation_formset.management_form }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript" src="{% static 'assets/js/jquery.formset.js' %}"></script>
+
+<script type="text/javascript">
+    // Formset sscript
+    $(document).ready(function(){
+        $('input[type=text]').focus(function () {
+            $(this).select();
+        });
+        $('.quotation_formset table tr.form_set_row').formset({
+            prefix: '{{ quotation_formset.prefix }}',
+            formCssClass: 'dynamic-formset1',
+        });
+        $('.add-row').addClass('btn btn-info');
+        $('.delete-row').addClass('btn btn-danger');
+    });
+
+</script>
+{% endblock %}

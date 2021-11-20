@@ -1,0 +1,99 @@
+{% extends "index.html" %}
+{% load i18n %}
+{% load tz %}
+{% load static %}
+
+{% block content %}
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12">
+				<div class="page-title-box">
+					<h4 class="page-title float-left">{{title}}</h4>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</div>
+		<!-- end row -->
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+		<form enctype="multipart/form-data" class="ajax reset redirect" method="post"
+			action="{{url}}" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="card">
+						<div class="card-body card-padding">
+							<div class="form-group fg-line">
+								<label for="{{ form.name.id_for_label }}">
+									{{ form.name.label }}
+									{% if form.name.field.required %}
+									<small class="star">*</small>
+									{% endif %}
+
+									{% if form.name.help_text %}
+									<span data-original-title="Field Info" title=""
+										data-content="{{ form.name.help_text }}" data-placement="left"
+										data-toggle="popover" data-trigger="hover"
+										class="help-text-icon zmdi zmdi-info-outline"></span>
+									{% endif %}
+								</label>
+								{{ form.name }}
+
+							</div>
+							<div class="form-group fg-line">
+								<label for="{{ form.price.id_for_label }}">
+									{{ form.price.label }}
+									{% if form.price.field.required %}
+									<small class="star">*</small>
+									{% endif %}
+
+									{% if form.price.help_text %}
+									<span data-original-title="Field Info" title=""
+										data-content="{{ form.price.help_text }}" data-placement="left"
+										data-toggle="popover" data-trigger="hover"
+										class="help-text-icon zmdi zmdi-info-outline"></span>
+									{% endif %}
+								</label>
+								{{ form.price }}
+
+							</div>
+
+							<div class="form-group fg-line">
+								<label for="{{ form.qty.id_for_label }}">
+									{{ form.qty.label }}
+									{% if form.qty.field.required %}
+									<small class="star">*</small>
+									{% endif %}
+
+									{% if form.qty.help_text %}
+									<span data-original-title="Field Info" title=""
+										data-content="{{ form.qty.help_text }}" data-placement="left"
+										data-toggle="popover" data-trigger="hover"
+										class="help-text-icon zmdi zmdi-info-outline"></span>
+									{% endif %}
+								</label>
+								{{ form.qty }}
+							</div>
+							<div class="m-t-20">
+								<button type="submit" class="btn btn-info waves-effect">Create</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock %}
+
+
+
+
